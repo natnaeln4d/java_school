@@ -116,7 +116,7 @@ public class HelloApplication extends Application {
 
 
                 HBox header=new HBox();
-                Label headertitle=new Label("sign up");
+                Label headertitle=new Label("Login");
                 headertitle.setPadding(new Insets(100,100,10,150));
 
                 headertitle.setTextFill(Color.web("#0076a3"));
@@ -171,10 +171,10 @@ public class HelloApplication extends Application {
                                     "Connection Established successfully");
                             Statement st=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 //                            String sql="select username from students where=?";
-                            String sql = "SELECT password FROM students WHERE name = " + un + ";";
-//                            PreparedStatement ps=con.prepareStatement(sql);
+                            String sql = "SELECT email,password FROM students WHERE name = ' " + un + " ';";
+                            PreparedStatement ps=con.prepareStatement(sql);
 //                            ps.setString(1,un);
-                            ResultSet resultSet=st.executeQuery(sql);
+                            ResultSet resultSet=ps.executeQuery();
                             if(resultSet.next()){
                                 usern=resultSet.getString("name");
                                 passw=resultSet.getString("password");
