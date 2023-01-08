@@ -1,5 +1,5 @@
 # java_school
 School project
 ##
-implemetemented using java O
+implemetemented using java OO
 
