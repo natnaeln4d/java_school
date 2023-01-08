@@ -1,5 +1,5 @@
 # java_school
 School project
 ##
-implemetemented using 
+implemetemented using ja
 
