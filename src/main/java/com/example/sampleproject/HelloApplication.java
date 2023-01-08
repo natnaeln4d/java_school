@@ -170,25 +170,32 @@ public class HelloApplication extends Application {
                             System.out.println(
                                     "Connection Established successfully");
                             Statement st=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-//                            String sql="select username from students where=?";
-                            String sql = "SELECT email,password FROM students WHERE name = ' " + un + " ';";
-                            PreparedStatement ps=con.prepareStatement(sql);
-//                            ps.setString(1,un);
-                            ResultSet resultSet=ps.executeQuery();
-                            if(resultSet.next()){
-                                usern=resultSet.getString("name");
-                                passw=resultSet.getString("password");
-                                boolean check=passw.equals(pw);
-                                if(check){
-                                    System.out.println("login successfully"+usern);
 
-                                }
-                                else
-                                    System.out.println("password incorrect");
+
+//
+
+                            String sql = "SELECT id,password,name FROM students WHERE email ='"+un+"';";
+                            System.out.println(sql);
+                            PreparedStatement ps=con.prepareStatement(sql);
+                            ResultSet resultSet=ps.executeQuery();
+
+                            while (resultSet.next()){
+
+                                    passw=resultSet.getString("password");
+                                    boolean check=pw.equals(passw);
+                                    if(check){
+                                        System.out.println("login successfully");
+                                        System.out.println("id:"+resultSet.getString("id"));
+                                        System.out.println("name:"+resultSet.getString("name"));
+                                        System.out.println("password:"+resultSet.getString("password"));
+                                        handlefile();
+
+                                    }
+                                    else
+                                        System.out.println("password incorrect");
 
                             }
-                            else
-                                System.out.println("No user");
+
 
 
                         }catch (ClassNotFoundException F){
@@ -277,7 +284,9 @@ public class HelloApplication extends Application {
         });
 
     }
+public void handlefile(){
 
+}
 
     public static void main(String[] args) {
         launch();
