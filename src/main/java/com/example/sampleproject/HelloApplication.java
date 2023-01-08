@@ -8,13 +8,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.ObjectInput;
@@ -41,6 +39,7 @@ public class HelloApplication extends Application {
 
         VBox container=new VBox();
         container.setSpacing(4);
+        container.setPadding(new Insets(0,0,10,30));
         group.getChildren().add(container);
 
 
@@ -112,6 +111,7 @@ public class HelloApplication extends Application {
                 stage.show();
                 VBox container=new VBox();
                 container.setSpacing(4);
+                container.setPadding(new Insets(0,0,10,30));
                 group1.getChildren().add(container);
 
 
@@ -188,7 +188,12 @@ public class HelloApplication extends Application {
                                         System.out.println("id:"+resultSet.getString("id"));
                                         System.out.println("name:"+resultSet.getString("name"));
                                         System.out.println("password:"+resultSet.getString("password"));
-                                        handlefile();
+                                        String name=resultSet.getString("name");
+                                        username.setText("");
+                                        passwordField.setText("");
+                                         Stage stage1 = new Stage();
+                                        handlefile(stage1,name);
+                                        stage.close();
 
                                     }
                                     else
@@ -203,12 +208,15 @@ public class HelloApplication extends Application {
                         }
                         catch (SQLException E){
                             System.out.println(E);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 });
                 save.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
+                        stage.close();
                         Stage stage=new Stage();
                         try {
                             start(stage);
@@ -284,9 +292,1545 @@ public class HelloApplication extends Application {
         });
 
     }
-public void handlefile(){
+public void handlefile(Stage stage,String name) throws IOException{
+    Group group1=new Group();
+    Scene Texteditor=new Scene(group1);
+    stage.setScene(Texteditor);
+    stage.setTitle("Login");
+    stage.setHeight(500);
+    stage.setWidth(400);
+    stage.show();
+    VBox container=new VBox();
+    container.setSpacing(4);
+    group1.getChildren().add(container);
+    HBox nav=new HBox();
+    Menu menu=new Menu("File");
+    MenuItem m1=new MenuItem("open");
+    MenuItem m2=new MenuItem("save");
+    MenuItem m3=new MenuItem("saveAs");
+    menu.getItems().add(m1);
+    menu.getItems().add(m2);
+    menu.getItems().add(m3);
+    Menu menu1=new Menu("Directory");
+    MenuItem m11=new MenuItem("Open Directory");
+    MenuItem m22=new MenuItem("Transverse Directory");
+    MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+    menu1.getItems().add(m11);
+    menu1.getItems().add(m22);
+    menu1.getItems().add(m33);
+    Menu menu2=new Menu("Student Information");
+    MenuItem m111=new MenuItem("Register student");
+    MenuItem m222=new MenuItem("All Students");
+    MenuItem m333=new MenuItem("Single Student information");
+    menu2.getItems().add(m111);
+    menu2.getItems().add(m222);
+    menu2.getItems().add(m333);
+    MenuBar menuBar1=new MenuBar();
+    menuBar1.getMenus().add(menu);
+    menuBar1.getMenus().add(menu1);
+    menuBar1.getMenus().add(menu2);
+    Menu log=new Menu("Logout");
+    MenuItem logut=new MenuItem("logout");
+    log.getItems().add(logut);
+    MenuBar menuBar2=new MenuBar();
+    menuBar2.getMenus().add(log);
+     nav.getChildren().add(menuBar1);
+     nav.getChildren().add(menuBar2);
+     nav.setSpacing(80);
+     container.getChildren().add(nav);
+     logut.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+
+             Stage stage1=new Stage();
+             try {
+
+                 start(stage1);
+
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+             stage.close();
+         }
+     });
+     m1.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             open(stage1);
+             stage.close();
+
+
+         }
+     });
+    m2.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            save(stage1);
+            stage.close();
+
+
+        }
+    });
+    m3.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            saveAS(stage1);
+            stage.close();
+
+
+        }
+    });
+    m11.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            openDirectory(stage1);
+            stage.close();
+
+
+        }
+    });
+    m22.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            transverse(stage1);
+            stage.close();
+
+
+        }
+    });
+    m33.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            ChecKFileDirectory(stage1);
+            stage.close();
+
+
+        }
+    });
+    m111.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            StudentRegisteration(stage1);
+            stage.close();
+
+
+        }
+    });
+    m222.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            displayallstudent(stage1);
+            stage.close();
+
+
+        }
+    });
+    m333.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Stage stage1=new Stage();
+            displaysinglestudent(stage1);
+            stage.close();
+
+
+        }
+    });
+
+
+
+    HBox header=new HBox();
+    Label headertitle=new Label("Welcome:"+name);
+    headertitle.setPadding(new Insets(150,100,10,80));
+
+    headertitle.setTextFill(Color.web("#0076a3"));
+    headertitle.setStyle("-fx-font-size:20px");
+    header.setAlignment(Pos.CENTER);
+    header.getChildren().add(headertitle);
+    container.getChildren().add(header);
+
+
+
+
 
 }
+ public void open(Stage stage){
+     Group group1=new Group();
+     Scene Texteditor=new Scene(group1);
+     stage.setScene(Texteditor);
+     stage.setTitle("Login");
+     stage.setHeight(500);
+     stage.setWidth(400);
+     stage.show();
+     VBox container=new VBox();
+     container.setSpacing(4);
+     group1.getChildren().add(container);
+     HBox nav=new HBox();
+     Menu menu=new Menu("File");
+     MenuItem m1=new MenuItem("open");
+     MenuItem m2=new MenuItem("save");
+     MenuItem m3=new MenuItem("saveAs");
+     menu.getItems().add(m1);
+     menu.getItems().add(m2);
+     menu.getItems().add(m3);
+     Menu menu1=new Menu("Directory");
+     MenuItem m11=new MenuItem("Open Directory");
+     MenuItem m22=new MenuItem("Transverse Directory");
+     MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+     menu1.getItems().add(m11);
+     menu1.getItems().add(m22);
+     menu1.getItems().add(m33);
+     Menu menu2=new Menu("Student Information");
+     MenuItem m111=new MenuItem("Register student");
+     MenuItem m222=new MenuItem("All Students");
+     MenuItem m333=new MenuItem("Single Student information");
+     menu2.getItems().add(m111);
+     menu2.getItems().add(m222);
+     menu2.getItems().add(m333);
+     MenuBar menuBar1=new MenuBar();
+     menuBar1.getMenus().add(menu);
+     menuBar1.getMenus().add(menu1);
+     menuBar1.getMenus().add(menu2);
+     Menu log=new Menu("Logout");
+     MenuItem logut=new MenuItem("logout");
+     log.getItems().add(logut);
+     MenuBar menuBar2=new MenuBar();
+     menuBar2.getMenus().add(log);
+     nav.getChildren().add(menuBar1);
+     nav.getChildren().add(menuBar2);
+     nav.setSpacing(80);
+     container.getChildren().add(nav);
+     logut.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+
+             Stage stage1=new Stage();
+             try {
+
+                 start(stage1);
+
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+             stage.close();
+         }
+     });
+     m1.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             open(stage1);
+             stage.close();
+
+
+         }
+     });
+     m2.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             save(stage1);
+             stage.close();
+
+
+         }
+     });
+     m3.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             saveAS(stage1);
+             stage.close();
+
+
+         }
+     });
+     m11.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             openDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m22.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             transverse(stage1);
+             stage.close();
+
+
+         }
+     });
+     m33.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             ChecKFileDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m111.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             StudentRegisteration(stage1);
+             stage.close();
+
+
+         }
+     });
+     m222.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displayallstudent(stage1);
+             stage.close();
+
+
+         }
+     });
+     m333.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displaysinglestudent(stage1);
+             stage.close();
+
+
+         }
+     });
+ }
+ public void save(Stage stage){
+     Group group1=new Group();
+     Scene Texteditor=new Scene(group1);
+     stage.setScene(Texteditor);
+     stage.setTitle("Login");
+     stage.setHeight(500);
+     stage.setWidth(400);
+     stage.show();
+     VBox container=new VBox();
+     container.setSpacing(4);
+     group1.getChildren().add(container);
+     HBox nav=new HBox();
+     Menu menu=new Menu("File");
+     MenuItem m1=new MenuItem("open");
+     MenuItem m2=new MenuItem("save");
+     MenuItem m3=new MenuItem("saveAs");
+     menu.getItems().add(m1);
+     menu.getItems().add(m2);
+     menu.getItems().add(m3);
+     Menu menu1=new Menu("Directory");
+     MenuItem m11=new MenuItem("Open Directory");
+     MenuItem m22=new MenuItem("Transverse Directory");
+     MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+     menu1.getItems().add(m11);
+     menu1.getItems().add(m22);
+     menu1.getItems().add(m33);
+     Menu menu2=new Menu("Student Information");
+     MenuItem m111=new MenuItem("Register student");
+     MenuItem m222=new MenuItem("All Students");
+     MenuItem m333=new MenuItem("Single Student information");
+     menu2.getItems().add(m111);
+     menu2.getItems().add(m222);
+     menu2.getItems().add(m333);
+     MenuBar menuBar1=new MenuBar();
+     menuBar1.getMenus().add(menu);
+     menuBar1.getMenus().add(menu1);
+     menuBar1.getMenus().add(menu2);
+     Menu log=new Menu("Logout");
+     MenuItem logut=new MenuItem("logout");
+     log.getItems().add(logut);
+     MenuBar menuBar2=new MenuBar();
+     menuBar2.getMenus().add(log);
+     nav.getChildren().add(menuBar1);
+     nav.getChildren().add(menuBar2);
+     nav.setSpacing(80);
+     container.getChildren().add(nav);
+     logut.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+
+             Stage stage1=new Stage();
+             try {
+
+                 start(stage1);
+
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+             stage.close();
+         }
+     });
+     m1.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             open(stage1);
+             stage.close();
+
+
+         }
+     });
+     m2.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             save(stage1);
+             stage.close();
+
+
+         }
+     });
+     m3.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             saveAS(stage1);
+             stage.close();
+
+
+         }
+     });
+     m11.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             openDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m22.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             transverse(stage1);
+             stage.close();
+
+
+         }
+     });
+     m33.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             ChecKFileDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m111.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             StudentRegisteration(stage1);
+             stage.close();
+
+
+         }
+     });
+     m222.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displayallstudent(stage1);
+             stage.close();
+
+
+         }
+     });
+     m333.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displaysinglestudent(stage1);
+             stage.close();
+
+
+         }
+     });
+ }
+ public void saveAS(Stage stage){
+     Group group1=new Group();
+     Scene Texteditor=new Scene(group1);
+     stage.setScene(Texteditor);
+     stage.setTitle("Login");
+     stage.setHeight(500);
+     stage.setWidth(400);
+     stage.show();
+     VBox container=new VBox();
+     container.setSpacing(4);
+     group1.getChildren().add(container);
+     HBox nav=new HBox();
+     Menu menu=new Menu("File");
+     MenuItem m1=new MenuItem("open");
+     MenuItem m2=new MenuItem("save");
+     MenuItem m3=new MenuItem("saveAs");
+     menu.getItems().add(m1);
+     menu.getItems().add(m2);
+     menu.getItems().add(m3);
+     Menu menu1=new Menu("Directory");
+     MenuItem m11=new MenuItem("Open Directory");
+     MenuItem m22=new MenuItem("Transverse Directory");
+     MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+     menu1.getItems().add(m11);
+     menu1.getItems().add(m22);
+     menu1.getItems().add(m33);
+     Menu menu2=new Menu("Student Information");
+     MenuItem m111=new MenuItem("Register student");
+     MenuItem m222=new MenuItem("All Students");
+     MenuItem m333=new MenuItem("Single Student information");
+     menu2.getItems().add(m111);
+     menu2.getItems().add(m222);
+     menu2.getItems().add(m333);
+     MenuBar menuBar1=new MenuBar();
+     menuBar1.getMenus().add(menu);
+     menuBar1.getMenus().add(menu1);
+     menuBar1.getMenus().add(menu2);
+     Menu log=new Menu("Logout");
+     MenuItem logut=new MenuItem("logout");
+     log.getItems().add(logut);
+     MenuBar menuBar2=new MenuBar();
+     menuBar2.getMenus().add(log);
+     nav.getChildren().add(menuBar1);
+     nav.getChildren().add(menuBar2);
+     nav.setSpacing(80);
+     container.getChildren().add(nav);
+     logut.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+
+             Stage stage1=new Stage();
+             try {
+
+                 start(stage1);
+
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+             stage.close();
+         }
+     });
+     m1.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             open(stage1);
+             stage.close();
+
+
+         }
+     });
+     m2.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             save(stage1);
+             stage.close();
+
+
+         }
+     });
+     m3.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             saveAS(stage1);
+             stage.close();
+
+
+         }
+     });
+     m11.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             openDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m22.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             transverse(stage1);
+             stage.close();
+
+
+         }
+     });
+     m33.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             ChecKFileDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m111.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             StudentRegisteration(stage1);
+             stage.close();
+
+
+         }
+     });
+     m222.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displayallstudent(stage1);
+             stage.close();
+
+
+         }
+     });
+     m333.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displaysinglestudent(stage1);
+             stage.close();
+
+
+         }
+     });
+ }
+ public void openDirectory(Stage stage){
+     Group group1=new Group();
+     Scene Texteditor=new Scene(group1);
+     stage.setScene(Texteditor);
+     stage.setTitle("Login");
+     stage.setHeight(500);
+     stage.setWidth(400);
+     stage.show();
+     VBox container=new VBox();
+     container.setSpacing(4);
+     group1.getChildren().add(container);
+     HBox nav=new HBox();
+     Menu menu=new Menu("File");
+     MenuItem m1=new MenuItem("open");
+     MenuItem m2=new MenuItem("save");
+     MenuItem m3=new MenuItem("saveAs");
+     menu.getItems().add(m1);
+     menu.getItems().add(m2);
+     menu.getItems().add(m3);
+     Menu menu1=new Menu("Directory");
+     MenuItem m11=new MenuItem("Open Directory");
+     MenuItem m22=new MenuItem("Transverse Directory");
+     MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+     menu1.getItems().add(m11);
+     menu1.getItems().add(m22);
+     menu1.getItems().add(m33);
+     Menu menu2=new Menu("Student Information");
+     MenuItem m111=new MenuItem("Register student");
+     MenuItem m222=new MenuItem("All Students");
+     MenuItem m333=new MenuItem("Single Student information");
+     menu2.getItems().add(m111);
+     menu2.getItems().add(m222);
+     menu2.getItems().add(m333);
+     MenuBar menuBar1=new MenuBar();
+     menuBar1.getMenus().add(menu);
+     menuBar1.getMenus().add(menu1);
+     menuBar1.getMenus().add(menu2);
+     Menu log=new Menu("Logout");
+     MenuItem logut=new MenuItem("logout");
+     log.getItems().add(logut);
+     MenuBar menuBar2=new MenuBar();
+     menuBar2.getMenus().add(log);
+     nav.getChildren().add(menuBar1);
+     nav.getChildren().add(menuBar2);
+     nav.setSpacing(80);
+     container.getChildren().add(nav);
+     logut.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+
+             Stage stage1=new Stage();
+             try {
+
+                 start(stage1);
+
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+             stage.close();
+         }
+     });
+     m1.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             open(stage1);
+             stage.close();
+
+
+         }
+     });
+     m2.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             save(stage1);
+             stage.close();
+
+
+         }
+     });
+     m3.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             saveAS(stage1);
+             stage.close();
+
+
+         }
+     });
+     m11.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             openDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m22.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             transverse(stage1);
+             stage.close();
+
+
+         }
+     });
+     m33.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             ChecKFileDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m111.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             StudentRegisteration(stage1);
+             stage.close();
+
+
+         }
+     });
+     m222.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displayallstudent(stage1);
+             stage.close();
+
+
+         }
+     });
+     m333.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displaysinglestudent(stage1);
+             stage.close();
+
+
+         }
+     });
+ }
+ public void transverse(Stage stage){
+     Group group1=new Group();
+     Scene Texteditor=new Scene(group1);
+     stage.setScene(Texteditor);
+     stage.setTitle("Login");
+     stage.setHeight(500);
+     stage.setWidth(400);
+     stage.show();
+     VBox container=new VBox();
+     container.setSpacing(4);
+     group1.getChildren().add(container);
+     HBox nav=new HBox();
+     Menu menu=new Menu("File");
+     MenuItem m1=new MenuItem("open");
+     MenuItem m2=new MenuItem("save");
+     MenuItem m3=new MenuItem("saveAs");
+     menu.getItems().add(m1);
+     menu.getItems().add(m2);
+     menu.getItems().add(m3);
+     Menu menu1=new Menu("Directory");
+     MenuItem m11=new MenuItem("Open Directory");
+     MenuItem m22=new MenuItem("Transverse Directory");
+     MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+     menu1.getItems().add(m11);
+     menu1.getItems().add(m22);
+     menu1.getItems().add(m33);
+     Menu menu2=new Menu("Student Information");
+     MenuItem m111=new MenuItem("Register student");
+     MenuItem m222=new MenuItem("All Students");
+     MenuItem m333=new MenuItem("Single Student information");
+     menu2.getItems().add(m111);
+     menu2.getItems().add(m222);
+     menu2.getItems().add(m333);
+     MenuBar menuBar1=new MenuBar();
+     menuBar1.getMenus().add(menu);
+     menuBar1.getMenus().add(menu1);
+     menuBar1.getMenus().add(menu2);
+     Menu log=new Menu("Logout");
+     MenuItem logut=new MenuItem("logout");
+     log.getItems().add(logut);
+     MenuBar menuBar2=new MenuBar();
+     menuBar2.getMenus().add(log);
+     nav.getChildren().add(menuBar1);
+     nav.getChildren().add(menuBar2);
+     nav.setSpacing(80);
+     container.getChildren().add(nav);
+     logut.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+
+             Stage stage1=new Stage();
+             try {
+
+                 start(stage1);
+
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+             stage.close();
+         }
+     });
+     m1.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             open(stage1);
+             stage.close();
+
+
+         }
+     });
+     m2.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             save(stage1);
+             stage.close();
+
+
+         }
+     });
+     m3.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             saveAS(stage1);
+             stage.close();
+
+
+         }
+     });
+     m11.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             openDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m22.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             transverse(stage1);
+             stage.close();
+
+
+         }
+     });
+     m33.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             ChecKFileDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m111.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             StudentRegisteration(stage1);
+             stage.close();
+
+
+         }
+     });
+     m222.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displayallstudent(stage1);
+             stage.close();
+
+
+         }
+     });
+     m333.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displaysinglestudent(stage1);
+             stage.close();
+
+
+         }
+     });
+ }
+ public void ChecKFileDirectory(Stage stage){
+     Group group1=new Group();
+     Scene Texteditor=new Scene(group1);
+     stage.setScene(Texteditor);
+     stage.setTitle("Login");
+     stage.setHeight(500);
+     stage.setWidth(400);
+     stage.show();
+     VBox container=new VBox();
+     container.setSpacing(4);
+     group1.getChildren().add(container);
+     HBox nav=new HBox();
+     Menu menu=new Menu("File");
+     MenuItem m1=new MenuItem("open");
+     MenuItem m2=new MenuItem("save");
+     MenuItem m3=new MenuItem("saveAs");
+     menu.getItems().add(m1);
+     menu.getItems().add(m2);
+     menu.getItems().add(m3);
+     Menu menu1=new Menu("Directory");
+     MenuItem m11=new MenuItem("Open Directory");
+     MenuItem m22=new MenuItem("Transverse Directory");
+     MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+     menu1.getItems().add(m11);
+     menu1.getItems().add(m22);
+     menu1.getItems().add(m33);
+     Menu menu2=new Menu("Student Information");
+     MenuItem m111=new MenuItem("Register student");
+     MenuItem m222=new MenuItem("All Students");
+     MenuItem m333=new MenuItem("Single Student information");
+     menu2.getItems().add(m111);
+     menu2.getItems().add(m222);
+     menu2.getItems().add(m333);
+     MenuBar menuBar1=new MenuBar();
+     menuBar1.getMenus().add(menu);
+     menuBar1.getMenus().add(menu1);
+     menuBar1.getMenus().add(menu2);
+     Menu log=new Menu("Logout");
+     MenuItem logut=new MenuItem("logout");
+     log.getItems().add(logut);
+     MenuBar menuBar2=new MenuBar();
+     menuBar2.getMenus().add(log);
+     nav.getChildren().add(menuBar1);
+     nav.getChildren().add(menuBar2);
+     nav.setSpacing(80);
+     container.getChildren().add(nav);
+     logut.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+
+             Stage stage1=new Stage();
+             try {
+
+                 start(stage1);
+
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+             stage.close();
+         }
+     });
+     m1.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             open(stage1);
+             stage.close();
+
+
+         }
+     });
+     m2.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             save(stage1);
+             stage.close();
+
+
+         }
+     });
+     m3.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             saveAS(stage1);
+             stage.close();
+
+
+         }
+     });
+     m11.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             openDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m22.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             transverse(stage1);
+             stage.close();
+
+
+         }
+     });
+     m33.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             ChecKFileDirectory(stage1);
+             stage.close();
+
+
+         }
+     });
+     m111.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             StudentRegisteration(stage1);
+             stage.close();
+
+
+         }
+     });
+     m222.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displayallstudent(stage1);
+             stage.close();
+
+
+         }
+     });
+     m333.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             Stage stage1=new Stage();
+             displaysinglestudent(stage1);
+             stage.close();
+
+
+         }
+     });
+ }
+    public void StudentRegisteration(Stage stage){
+        Group group1=new Group();
+        Scene Texteditor=new Scene(group1);
+        stage.setScene(Texteditor);
+        stage.setTitle("Login");
+        stage.setHeight(500);
+        stage.setWidth(400);
+        stage.show();
+        VBox container=new VBox();
+        container.setSpacing(4);
+        group1.getChildren().add(container);
+        HBox nav=new HBox();
+        Menu menu=new Menu("File");
+        MenuItem m1=new MenuItem("open");
+        MenuItem m2=new MenuItem("save");
+        MenuItem m3=new MenuItem("saveAs");
+        menu.getItems().add(m1);
+        menu.getItems().add(m2);
+        menu.getItems().add(m3);
+        Menu menu1=new Menu("Directory");
+        MenuItem m11=new MenuItem("Open Directory");
+        MenuItem m22=new MenuItem("Transverse Directory");
+        MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+        menu1.getItems().add(m11);
+        menu1.getItems().add(m22);
+        menu1.getItems().add(m33);
+        Menu menu2=new Menu("Student Information");
+        MenuItem m111=new MenuItem("Register student");
+        MenuItem m222=new MenuItem("All Students");
+        MenuItem m333=new MenuItem("Single Student information");
+        menu2.getItems().add(m111);
+        menu2.getItems().add(m222);
+        menu2.getItems().add(m333);
+        MenuBar menuBar1=new MenuBar();
+        menuBar1.getMenus().add(menu);
+        menuBar1.getMenus().add(menu1);
+        menuBar1.getMenus().add(menu2);
+        Menu log=new Menu("Logout");
+        MenuItem logut=new MenuItem("logout");
+        log.getItems().add(logut);
+        MenuBar menuBar2=new MenuBar();
+        menuBar2.getMenus().add(log);
+        nav.getChildren().add(menuBar1);
+        nav.getChildren().add(menuBar2);
+        nav.setSpacing(80);
+        container.getChildren().add(nav);
+        logut.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Stage stage1=new Stage();
+                try {
+
+                    start(stage1);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stage.close();
+            }
+        });
+        m1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                open(stage1);
+                stage.close();
+
+
+            }
+        });
+        m2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                save(stage1);
+                stage.close();
+
+
+            }
+        });
+        m3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                saveAS(stage1);
+                stage.close();
+
+
+            }
+        });
+        m11.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                openDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m22.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                transverse(stage1);
+                stage.close();
+
+
+            }
+        });
+        m33.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                ChecKFileDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m111.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                StudentRegisteration(stage1);
+                stage.close();
+
+
+            }
+        });
+        m222.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                displayallstudent(stage1);
+                stage.close();
+
+
+            }
+        });
+        m333.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                displaysinglestudent(stage1);
+                stage.close();
+
+
+            }
+        });
+    }
+    public void displayallstudent(Stage stage){
+        Group group1=new Group();
+        Scene Texteditor=new Scene(group1);
+        stage.setScene(Texteditor);
+        stage.setTitle("Login");
+        stage.setHeight(500);
+        stage.setWidth(400);
+        stage.show();
+        VBox container=new VBox();
+        container.setSpacing(4);
+        group1.getChildren().add(container);
+        HBox nav=new HBox();
+        Menu menu=new Menu("File");
+        MenuItem m1=new MenuItem("open");
+        MenuItem m2=new MenuItem("save");
+        MenuItem m3=new MenuItem("saveAs");
+        menu.getItems().add(m1);
+        menu.getItems().add(m2);
+        menu.getItems().add(m3);
+        Menu menu1=new Menu("Directory");
+        MenuItem m11=new MenuItem("Open Directory");
+        MenuItem m22=new MenuItem("Transverse Directory");
+        MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+        menu1.getItems().add(m11);
+        menu1.getItems().add(m22);
+        menu1.getItems().add(m33);
+        Menu menu2=new Menu("Student Information");
+        MenuItem m111=new MenuItem("Register student");
+        MenuItem m222=new MenuItem("All Students");
+        MenuItem m333=new MenuItem("Single Student information");
+        menu2.getItems().add(m111);
+        menu2.getItems().add(m222);
+        menu2.getItems().add(m333);
+        MenuBar menuBar1=new MenuBar();
+        menuBar1.getMenus().add(menu);
+        menuBar1.getMenus().add(menu1);
+        menuBar1.getMenus().add(menu2);
+        Menu log=new Menu("Logout");
+        MenuItem logut=new MenuItem("logout");
+        log.getItems().add(logut);
+        MenuBar menuBar2=new MenuBar();
+        menuBar2.getMenus().add(log);
+        nav.getChildren().add(menuBar1);
+        nav.getChildren().add(menuBar2);
+        nav.setSpacing(80);
+        container.getChildren().add(nav);
+        logut.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Stage stage1=new Stage();
+                try {
+
+                    start(stage1);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stage.close();
+            }
+        });
+        m1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                open(stage1);
+                stage.close();
+
+
+            }
+        });
+        m2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                save(stage1);
+                stage.close();
+
+
+            }
+        });
+        m3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                saveAS(stage1);
+                stage.close();
+
+
+            }
+        });
+        m11.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                openDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m22.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                transverse(stage1);
+                stage.close();
+
+
+            }
+        });
+        m33.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                ChecKFileDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m111.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                StudentRegisteration(stage1);
+                stage.close();
+
+
+            }
+        });
+        m222.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                displayallstudent(stage1);
+                stage.close();
+
+
+            }
+        });
+        m333.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                displaysinglestudent(stage1);
+                stage.close();
+
+
+            }
+        });
+
+    }
+    public void displaysinglestudent(Stage stage){
+        Group group1=new Group();
+        Scene Texteditor=new Scene(group1);
+        stage.setScene(Texteditor);
+        stage.setTitle("Login");
+        stage.setHeight(500);
+        stage.setWidth(400);
+        stage.show();
+        VBox container=new VBox();
+        container.setSpacing(4);
+        group1.getChildren().add(container);
+        HBox nav=new HBox();
+        Menu menu=new Menu("File");
+        MenuItem m1=new MenuItem("open");
+        MenuItem m2=new MenuItem("save");
+        MenuItem m3=new MenuItem("saveAs");
+        menu.getItems().add(m1);
+        menu.getItems().add(m2);
+        menu.getItems().add(m3);
+        Menu menu1=new Menu("Directory");
+        MenuItem m11=new MenuItem("Open Directory");
+        MenuItem m22=new MenuItem("Transverse Directory");
+        MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+        menu1.getItems().add(m11);
+        menu1.getItems().add(m22);
+        menu1.getItems().add(m33);
+        Menu menu2=new Menu("Student Information");
+        MenuItem m111=new MenuItem("Register student");
+        MenuItem m222=new MenuItem("All Students");
+        MenuItem m333=new MenuItem("Single Student information");
+        menu2.getItems().add(m111);
+        menu2.getItems().add(m222);
+        menu2.getItems().add(m333);
+        MenuBar menuBar1=new MenuBar();
+        menuBar1.getMenus().add(menu);
+        menuBar1.getMenus().add(menu1);
+        menuBar1.getMenus().add(menu2);
+        Menu log=new Menu("Logout");
+        MenuItem logut=new MenuItem("logout");
+        log.getItems().add(logut);
+        MenuBar menuBar2=new MenuBar();
+        menuBar2.getMenus().add(log);
+        nav.getChildren().add(menuBar1);
+        nav.getChildren().add(menuBar2);
+        nav.setSpacing(80);
+        container.getChildren().add(nav);
+        logut.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Stage stage1=new Stage();
+                try {
+
+                    start(stage1);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stage.close();
+            }
+        });
+        m1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                open(stage1);
+                stage.close();
+
+
+            }
+        });
+        m2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                save(stage1);
+                stage.close();
+
+
+            }
+        });
+        m3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                saveAS(stage1);
+                stage.close();
+
+
+            }
+        });
+        m11.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                openDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m22.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                transverse(stage1);
+                stage.close();
+
+
+            }
+        });
+        m33.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                ChecKFileDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m111.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                StudentRegisteration(stage1);
+                stage.close();
+
+
+            }
+        });
+        m222.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                displayallstudent(stage1);
+                stage.close();
+
+
+            }
+        });
+        m333.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                displaysinglestudent(stage1);
+                stage.close();
+
+
+            }
+        });
+
+    }
 
     public static void main(String[] args) {
         launch();
