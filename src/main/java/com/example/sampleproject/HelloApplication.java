@@ -1,5 +1,6 @@
 package com.example.sampleproject;
 
+import com.almasb.fxgl.logging.FileOutput;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,17 +16,17 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.ObjectInput;
+import java.io.*;
 import  java.sql.*;
 import java.sql.DatabaseMetaData;
 
 import java.sql.SQLException;
 import java.sql.DriverManager;
-import java.io.IOException;
 
 import static java.lang.Class.forName;
 
 public class HelloApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
 //        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -612,6 +613,59 @@ public void handlefile(Stage stage,String name) throws IOException{
 
          }
      });
+     HBox header=new HBox();
+     Button button=new Button("open file");
+    button.setPadding(new Insets(150,100,10,80));
+
+     button.setTextFill(Color.web("#0076a3"));
+     button.setStyle("-fx-font-size:20px");
+     header.setAlignment(Pos.CENTER);
+     header.getChildren().add(button);
+     container.getChildren().add(header);
+
+
+   button.setOnAction(new EventHandler<ActionEvent>() {
+       @Override
+       public void handle(ActionEvent actionEvent) {
+
+               FileChooser fileChooser=new FileChooser();
+               FileChooser.ExtensionFilter extensionFilter=new FileChooser.ExtensionFilter("TXT file(*.txt)","*.txt");
+               fileChooser.getExtensionFilters().add(extensionFilter);
+               File file=fileChooser.showOpenDialog(stage);
+               if(file.isFile()){
+                   try {
+                       FileInputStream fileInputStream=new FileInputStream(file);
+                       BufferedInputStream bin =new BufferedInputStream(fileInputStream);
+
+                       byte[] contents = new byte[1024];
+                       int bytesRead = 0;
+                       String content;
+                       while ((bytesRead = bin.read(contents)) != -1) {
+                           content = new String(contents, 0, bytesRead);
+                           HBox header=new HBox();
+                           Label headertitle=new Label(content+"\n");
+                           headertitle.setPadding(new Insets(10,100,10,80));
+
+                           headertitle.setTextFill(Color.web("#0076a3"));
+                           headertitle.setStyle("-fx-font-size:20px");
+                           header.setAlignment(Pos.CENTER);
+                           header.getChildren().add(headertitle);
+                           container.getChildren().add(header);
+                           System.out.print(content);
+                           bin.close();
+                           fileInputStream.close();
+                       }
+                   } catch (FileNotFoundException e) {
+                       System.out.println("File not found" + e);
+                   } catch (IOException e) {
+                       System.out.println("Exception while reading the file " + e);
+                   }
+
+               }
+
+       }
+   });
+
  }
  public void save(Stage stage){
      Group group1=new Group();
@@ -764,6 +818,52 @@ public void handlefile(Stage stage,String name) throws IOException{
 
          }
      });
+     HBox header=new HBox();
+     Label headertitle=new Label("Write paragraph why you are here!!");
+     headertitle.setPadding(new Insets(20,100,10,50));
+     headertitle.setTextFill(Color.web("#0076a3"));
+     headertitle.setStyle("-fx-font-size:20px");
+     header.setAlignment(Pos.CENTER);
+     header.getChildren().add(headertitle);
+     container.getChildren().add(header);
+     HBox paragraphbox=new HBox();
+     TextArea paragraph=new TextArea();
+     paragraph.setMaxHeight(300);
+     paragraph.setMaxWidth(398);
+     paragraphbox.getChildren().add(paragraph);
+     container.getChildren().add(paragraphbox);
+     HBox btn=new HBox();
+     Button save=new Button("save");
+     btn.getChildren().add(save);
+     btn.setAlignment(Pos.CENTER);
+     btn.setPadding(new Insets(5,0,0,250));
+     container.getChildren().add(btn);
+     save.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent actionEvent) {
+             try{
+                 String data=paragraph.getText();
+                 FileChooser fileChooser=new FileChooser();
+                 FileChooser.ExtensionFilter extensionFilter=new FileChooser.ExtensionFilter("TXT file(*.txt","*.txt");
+
+                 fileChooser.getExtensionFilters().add(extensionFilter);
+                 File file=fileChooser.showSaveDialog(stage);
+                 OutputStream output  = new FileOutputStream(file);
+                 Writer outputStreamWriter = new OutputStreamWriter(output, "utf-8");
+                 outputStreamWriter.write(data);
+                 outputStreamWriter.close();
+
+             }
+             catch (FileNotFoundException F)
+             {
+                 System.out.println(F);
+             }catch (IOException E){
+                 System.out.println(E);
+             }
+         }
+     });
+
+
  }
  public void saveAS(Stage stage){
      Group group1=new Group();
