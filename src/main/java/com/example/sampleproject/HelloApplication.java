@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -1848,70 +1849,69 @@ public void handlefile(Stage stage,String name) throws IOException{
 
             }
         });
+        GridPane gridPane=new GridPane();
+
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+
+        container.getChildren().add(gridPane);
 
         HBox header=new HBox();
         Label headertitle=new Label("Register student");
-        headertitle.setPadding(new Insets(100,100,10,100));
+        headertitle.setPadding(new Insets(100,100,10,95));
 
         headertitle.setTextFill(Color.web("#0076a3"));
         headertitle.setStyle("-fx-font-size:20px");
         header.setAlignment(Pos.CENTER);
         header.getChildren().add(headertitle);
-        container.getChildren().add(header);
+      gridPane.add(headertitle,0,0);
 
-        HBox firstInput=new HBox();
+
+
         Label User=new Label("First Name");
         TextField firstname=new TextField();
-        firstInput.setSpacing(48);
-        firstInput.setAlignment(Pos.CENTER);
-        firstInput.getChildren().add(User);
-        firstInput.getChildren().add(firstname);
-        container.getChildren().add(firstInput);
 
-        HBox threidInput=new HBox();
+         gridPane.add(User,0,1);
+         gridPane.add(firstname,1,1);
+
+
         Label last=new Label("Last name");
         TextField lastname=new TextField();
-        threidInput.setAlignment(Pos.CENTER);
-        threidInput.getChildren().add(last);
-        threidInput.getChildren().add(lastname);
-        threidInput.setSpacing(72);
-        container.getChildren().add(threidInput);
+        gridPane.add(last,0,2);
+        gridPane.add(lastname,1,2);
 
-        HBox secondInput=new HBox();
+
+
+
         Label Gender=new Label("Gender");
         TextField sex=new TextField();
-        secondInput.setSpacing(48);
-        secondInput.setAlignment(Pos.CENTER);
-        secondInput.getChildren().add(Gender);
-        secondInput.getChildren().add(sex);
-        container.getChildren().add(secondInput);
+        gridPane.add(Gender,0,3);
+        gridPane.add(sex,1,3);
 
-        HBox fourInput=new HBox();
+
+
+
+
         Label Field=new Label("Department");
         TextField field=new TextField();
-        fourInput.setSpacing(1);
-        fourInput.setAlignment(Pos.CENTER);
-        fourInput.getChildren().add(Field);
-        fourInput.getChildren().add(field);
-        container.getChildren().add(fourInput);
+       gridPane.add(Field,0,4);
+       gridPane.add(field,1,4);
 
-        HBox FifthInput=new HBox();
+
+
         Label Year=new Label("Year");
         TextField year=new TextField();
-        fourInput.setSpacing(1);
-        fourInput.setAlignment(Pos.CENTER);
-        fourInput.getChildren().add(Year);
-        fourInput.getChildren().add(year);
-        container.getChildren().add(FifthInput);
+        gridPane.add(Year,0,5);
+        gridPane.add(year,1,5);
 
-        HBox sixthInput=new HBox();
+
+
         Label ID=new Label("id");
         TextField id=new TextField();
-        fourInput.setSpacing(1);
-        fourInput.setAlignment(Pos.CENTER);
-        fourInput.getChildren().add(ID);
-        fourInput.getChildren().add(id);
-        container.getChildren().add(sixthInput);
+        gridPane.add(ID,0,6);
+        gridPane.add(id,1,6);
+
+
 
         HBox btn=new HBox();
         Button save=new Button("Register");
@@ -1921,154 +1921,26 @@ public void handlefile(Stage stage,String name) throws IOException{
         btn.getChildren().add(Login);
         btn.setAlignment(Pos.CENTER);
         btn.setSpacing(5);
-        btn.setPadding(new Insets(5,0,0,135));
+        btn.setPadding(new Insets(5,0,0,50));
         container.getChildren().add(btn);
-        Login.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Group group1=new Group();
-                Scene loginscene=new Scene(group1);
-                stage.setScene(loginscene);
-                stage.setTitle("Login");
-                stage.setHeight(500);
-                stage.setWidth(400);
-                stage.show();
-                VBox container=new VBox();
-                container.setSpacing(4);
-                container.setPadding(new Insets(0,0,10,30));
-                group1.getChildren().add(container);
 
-
-                HBox header=new HBox();
-                Label headertitle=new Label("Login");
-                headertitle.setPadding(new Insets(100,100,10,150));
-
-                headertitle.setTextFill(Color.web("#0076a3"));
-                headertitle.setStyle("-fx-font-size:20px");
-                header.setAlignment(Pos.CENTER);
-                header.getChildren().add(headertitle);
-                container.getChildren().add(header);
-
-                HBox firstInput=new HBox();
-                Label User=new Label("user name");
-                TextField username=new TextField();
-                firstInput.setSpacing(8);
-
-                firstInput.setAlignment(Pos.CENTER);
-                firstInput.getChildren().add(User);
-                firstInput.getChildren().add(username);
-                container.getChildren().add(firstInput);
-
-                HBox secondInput=new HBox();
-                Label password=new Label("password");
-                PasswordField passwordField=new PasswordField();
-                secondInput.setSpacing(10);
-                secondInput.setAlignment(Pos.CENTER);
-                secondInput.getChildren().add(password);
-                secondInput.getChildren().add(passwordField);
-                container.getChildren().add(secondInput);
-
-                HBox btn=new HBox();
-                Button save=new Button("Register");
-                Button Login=new Button("Login");
-                Login.setStyle("-fx-color:#0076a3");
-                btn.getChildren().add(save);
-                btn.getChildren().add(Login);
-                btn.setAlignment(Pos.CENTER);
-                btn.setSpacing(5);
-                btn.setPadding(new Insets(5,0,0,100));
-                container.getChildren().add(btn);
-                Login.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        String un=username.getText();
-                        String pw=passwordField.getText();
-                        String usern="";
-                        String passw="";
-                        Connection con=null;
-                        try {
-                            Class.forName("com.mysql.cj.jdbc.Driver");
-                            String url="jdbc:mysql://localhost:3306/java_tuto";
-                            String user="natnaeln4d";
-                            String pwd="natty@123";
-                            con = DriverManager.getConnection(url, user, pwd);
-                            System.out.println(
-                                    "Connection Established successfully");
-                            Statement st=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-
-
-//
-
-                            String sql = "SELECT password,username FROM user WHERE email ='"+un+"';";
-                            System.out.println(sql);
-                            PreparedStatement ps=con.prepareStatement(sql);
-                            ResultSet resultSet=ps.executeQuery();
-
-                            while (resultSet.next()){
-
-                                passw=resultSet.getString("password");
-                                boolean check=pw.equals(passw);
-                                if(check){
-                                    System.out.println("login successfully");
-                                    System.out.println("name:"+resultSet.getString("username"));
-                                    System.out.println("password:"+resultSet.getString("password"));
-                                    String name=resultSet.getString("username");
-                                    username.setText("");
-                                    passwordField.setText("");
-                                    Stage stage1 = new Stage();
-                                    handlefile(stage1,name);
-                                    stage.close();
-
-                                }
-                                else
-                                    System.out.println("password incorrect");
-
-                            }
-
-
-
-                        }catch (ClassNotFoundException F){
-                            System.out.println(F);
-                        }
-                        catch (SQLException E){
-                            System.out.println(E);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
-//                save.setOnAction(new EventHandler<ActionEvent>() {
-//                    @Override
-//                    public void handle(ActionEvent actionEvent) {
-//                        stage.close();
-//                        Stage stage=new Stage();
-//                        try {
-//                            start(stage);
-//                        } catch (IOException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                });
-
-
-
-            }
-        });
         save.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                String un=firstname.getText();
-                String em=emailFiled.getText();
-                String pw=passwordField.getText();
-                String cmpw=compasswordField.getText();
-                boolean check=pw.equals(cmpw);
-                if (check) {
+
+
                     Connection con = null;
                     try {
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         String url = "jdbc:mysql://localhost:3306/java_tuto";
                         String user = "natnaeln4d";
                         String pwd = "natty@123";
+                        String fn=firstname.getText();
+                        String ln=lastname.getText();
+                        String s=sex.getText();
+                        String f=field.getText();
+                        String y=year.getText();
+                        String i1=id.getText();
                         con = DriverManager.getConnection(url, user, pwd);
                         System.out.println(
                                 "Connection Established successfully");
@@ -2078,9 +1950,9 @@ public void handlefile(Stage stage,String name) throws IOException{
                         String sql = "INSERT INTO user(username,email,password) VALUES (?,?,?)";
                         PreparedStatement pstatement = con.prepareStatement(sql);
 
-                        pstatement.setString(1, un);
-                        pstatement.setString(2, em);
-                        pstatement.setString(3, pw);
+//                        pstatement.setString(1, un);
+//                        pstatement.setString(2, em);
+//                        pstatement.setString(3, pw);
                         String name=firstname.getText();
                         int i = pstatement.executeUpdate();
                         if (i == 1) {
@@ -2107,10 +1979,10 @@ public void handlefile(Stage stage,String name) throws IOException{
                     } catch (ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                }else
-                    System.out.println("password don't match");
+                }
 
-            }
+
+
         });
 
 
