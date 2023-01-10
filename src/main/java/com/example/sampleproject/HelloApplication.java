@@ -10,10 +10,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -1850,15 +1854,16 @@ public void handlefile(Stage stage,String name) throws IOException{
             }
         });
         GridPane gridPane=new GridPane();
-
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+         gridPane.setAlignment(Pos.CENTER);
+//         gridPane.setPadding(new Insets(50));
+        gridPane.setHgap(-200);
+        gridPane.setVgap(5);
 
         container.getChildren().add(gridPane);
 
         HBox header=new HBox();
         Label headertitle=new Label("Register student");
-        headertitle.setPadding(new Insets(100,100,10,95));
+        headertitle.setPadding(new Insets(30,100,10,60));
 
         headertitle.setTextFill(Color.web("#0076a3"));
         headertitle.setStyle("-fx-font-size:20px");
@@ -1914,14 +1919,14 @@ public void handlefile(Stage stage,String name) throws IOException{
 
 
         HBox btn=new HBox();
-        Button save=new Button("Register");
+        Button save=new Button("Save");
         save.setStyle("-fx-color:#0076a3");
-        Button Login=new Button("Login");
+        Button Login=new Button("cancel");
         btn.getChildren().add(save);
         btn.getChildren().add(Login);
         btn.setAlignment(Pos.CENTER);
         btn.setSpacing(5);
-        btn.setPadding(new Insets(5,0,0,50));
+        btn.setPadding(new Insets(5,0,0,150));
         container.getChildren().add(btn);
 
         save.setOnAction(new EventHandler<ActionEvent>() {
@@ -1947,13 +1952,17 @@ public void handlefile(Stage stage,String name) throws IOException{
                         Statement st = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                         String select = "Select * from user";
                         ResultSet rt = st.executeQuery(select);
-                        String sql = "INSERT INTO user(username,email,password) VALUES (?,?,?)";
+                        String sql = "INSERT INTO students(firstname,lastname,sex,field,year,id) VALUES (?,?,?,?,?,?)";
                         PreparedStatement pstatement = con.prepareStatement(sql);
 
-//                        pstatement.setString(1, un);
-//                        pstatement.setString(2, em);
-//                        pstatement.setString(3, pw);
-                        String name=firstname.getText();
+                        pstatement.setString(1, fn);
+                        pstatement.setString(2, ln);
+                        pstatement.setString(3, s);
+                        pstatement.setString(4,f);
+                        pstatement.setString(5,y);
+                        pstatement.setString(6,i1);
+
+
                         int i = pstatement.executeUpdate();
                         if (i == 1) {
                             System.out.println("Student registered.");
@@ -1992,8 +2001,8 @@ public void handlefile(Stage stage,String name) throws IOException{
         Scene Texteditor=new Scene(group1);
         stage.setScene(Texteditor);
         stage.setTitle("Login");
-        stage.setHeight(500);
-        stage.setWidth(400);
+        stage.setHeight(600);
+        stage.setWidth(480);
         stage.show();
         VBox container=new VBox();
         container.setSpacing(4);
@@ -2031,7 +2040,7 @@ public void handlefile(Stage stage,String name) throws IOException{
         menuBar2.getMenus().add(log);
         nav.getChildren().add(menuBar1);
         nav.getChildren().add(menuBar2);
-        nav.setSpacing(80);
+        nav.setSpacing(148);
         container.getChildren().add(nav);
         logut.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -2138,6 +2147,146 @@ public void handlefile(Stage stage,String name) throws IOException{
 
             }
         });
+
+        GridPane gridPane=new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+//         gridPane.setPadding(new Insets(50));
+        gridPane.setHgap(-200);
+        gridPane.setVgap(5);
+
+        container.getChildren().add(gridPane);
+
+        HBox header=new HBox();
+        Label headertitle=new Label("Students");
+        headertitle.setPadding(new Insets(30,100,10,60));
+
+
+
+        headertitle.setTextFill(Color.web("#0076a3"));
+        headertitle.setStyle("-fx-font-size:20px");
+        header.setAlignment(Pos.CENTER);
+        header.getChildren().add(headertitle);
+        gridPane.add(headertitle,0,0);
+
+//        TableView tableView=new TableView<>();
+//        tableView.setEditable(true);
+//        TableColumn ID = new TableColumn("ID");
+//        TableColumn firstNameCol = new TableColumn("First Name");
+//        TableColumn lastNameCol = new TableColumn("Last Name");
+//        TableColumn Gender = new TableColumn("Sex");
+//        TableColumn field= new TableColumn("Department");
+//        TableColumn Year = new TableColumn("Year");
+//        tableView.getColumns().addAll(ID,firstNameCol,lastNameCol,Gender,field,Year);
+
+         GridPane gridPane1=new GridPane();
+         container.getChildren().add(gridPane1);
+
+         HBox tableView=new HBox();
+         Label ID=new Label("Id");
+        ID.setTextFill(new LinearGradient(
+                0, 0, 1, 1, true,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, Color.web("#81c483")),
+                new Stop(1, Color.web("#fcc200")))
+        );
+         Label FirstName=new Label("First Name");
+         FirstName.setTextFill(new LinearGradient(
+                 0, 0, 1, 1, true,
+                 CycleMethod.NO_CYCLE,
+                 new Stop(0, Color.web("#81c483")),
+                 new Stop(1, Color.web("#fcc200")))
+         );
+         Label LastName=new Label("Last Name");
+         LastName.setTextFill(new LinearGradient(
+                 0, 0, 1, 1, true,
+                 CycleMethod.NO_CYCLE,
+                 new Stop(0, Color.web("#81c483")),
+                 new Stop(1, Color.web("#fcc200")))
+         );
+        Label Gender=new Label("Sex");
+        Gender.setTextFill(new LinearGradient(
+                0, 0, 1, 1, true,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, Color.web("#81c483")),
+                new Stop(1, Color.web("#fcc200")))
+        );
+        Label Field=new Label("Department");
+        Field.setTextFill(new LinearGradient(
+                0, 0, 1, 1, true,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, Color.web("#81c483")),
+                new Stop(1, Color.web("#fcc200")))
+        );
+        Label Year=new Label("Year");
+        Year.setTextFill(new LinearGradient(
+                0, 0, 1, 1, true,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, Color.web("#81c483")),
+                new Stop(1, Color.web("#fcc200")))
+        );
+
+        tableView.getChildren().add(ID);
+        tableView.getChildren().add(FirstName);
+        tableView.getChildren().add(LastName);
+        tableView.getChildren().add(Gender);
+        tableView.getChildren().add(Field);
+        tableView.getChildren().add(Year);
+        tableView.setPadding(new Insets(10));
+        tableView.setSpacing(40);
+        tableView.setStyle("-fx-background-color:grey;");
+        gridPane1.add(tableView,0,0);
+
+
+
+        try {
+            Connection con=null;
+            forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/java_tuto";
+            String user = "natnaeln4d";
+            String pwd = "natty@123";
+            con=DriverManager.getConnection(url,user,pwd);
+            Statement statement=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            String sql="select * from Students";
+            ResultSet rt=statement.executeQuery(sql);
+            while (rt.next()){
+            String id=rt.getString("id");
+            String firstname=rt.getString("firstname");
+            String lastname=rt.getString("lastname");
+            String sex=rt.getString("sex");
+            String field1=rt.getString("field");
+            String year=rt.getString("year");
+                HBox tableView1=new HBox();
+
+                Label ID1=new Label(id);
+                Label FirstName1=new Label(firstname);
+                Label LastName1=new Label(lastname);
+                Label Gender1=new Label(sex);
+                Label Field1=new Label(field1);
+                Label Year1=new Label(year);
+                tableView1.getChildren().add(ID1);
+                tableView1.getChildren().add(FirstName1);
+                tableView1.getChildren().add(LastName1);
+                tableView1.getChildren().add(Gender1);
+                tableView1.getChildren().add(Field1);
+                tableView1.getChildren().add(Year1);
+                tableView1.setPadding(new Insets(10));
+                tableView1.setSpacing(40);
+              container.getChildren().add(tableView1);
+
+
+
+
+
+
+            }
+
+        }catch (SQLException e){
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        container.getChildren().add(tableView);
+
 
     }
     public void displaysinglestudent(Stage stage){
