@@ -23,6 +23,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import  java.sql.*;
 import java.sql.DatabaseMetaData;
 
@@ -187,7 +189,7 @@ public class HelloApplication extends Application {
                             PreparedStatement ps=con.prepareStatement(sql);
                             ResultSet resultSet=ps.executeQuery();
 
-                            while (resultSet.next()){
+                            if(resultSet.next()){
 
                                     passw=resultSet.getString("password");
                                     boolean check=pw.equals(passw);
@@ -207,6 +209,22 @@ public class HelloApplication extends Application {
                                         System.out.println("password incorrect");
 
                             }
+                            else {
+                                HBox header=new HBox();
+                                Label headertitle=new Label("No user");
+                                headertitle.setPadding(new Insets(30,100,10,60));
+
+
+
+                                headertitle.setTextFill(Color.web("#732219")
+                                );
+                                headertitle.setStyle("-fx-font-size:16px");
+                                header.setAlignment(Pos.CENTER);
+                                header.getChildren().add(headertitle);
+                                container.getChildren().add(header);
+
+                            }
+
 
 
 
@@ -435,9 +453,9 @@ public void handlefile(Stage stage,String name) throws IOException{
     m222.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            Stage stage1=new Stage();
-            displayallstudent(stage1);
-            stage.close();
+
+            displayallstudent(stage);
+
 
 
         }
@@ -604,9 +622,9 @@ public void handlefile(Stage stage,String name) throws IOException{
      m222.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent actionEvent) {
-             Stage stage1=new Stage();
-             displayallstudent(stage1);
-             stage.close();
+
+             displayallstudent(stage);
+
 
 
          }
@@ -809,9 +827,9 @@ public void handlefile(Stage stage,String name) throws IOException{
      m222.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent actionEvent) {
-             Stage stage1=new Stage();
-             displayallstudent(stage1);
-             stage.close();
+
+             displayallstudent(stage);
+
 
 
          }
@@ -1007,9 +1025,9 @@ public void handlefile(Stage stage,String name) throws IOException{
      m222.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent actionEvent) {
-             Stage stage1=new Stage();
-             displayallstudent(stage1);
-             stage.close();
+
+             displayallstudent(stage);
+
 
 
          }
@@ -1159,9 +1177,9 @@ public void handlefile(Stage stage,String name) throws IOException{
      m222.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent actionEvent) {
-             Stage stage1=new Stage();
-             displayallstudent(stage1);
-             stage.close();
+
+             displayallstudent(stage);
+
 
 
          }
@@ -1365,9 +1383,9 @@ public void handlefile(Stage stage,String name) throws IOException{
      m222.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent actionEvent) {
-             Stage stage1=new Stage();
-             displayallstudent(stage1);
-             stage.close();
+
+             displayallstudent(stage);
+
 
 
          }
@@ -1622,9 +1640,9 @@ public void handlefile(Stage stage,String name) throws IOException{
      m222.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent actionEvent) {
-             Stage stage1=new Stage();
-             displayallstudent(stage1);
-             stage.close();
+
+             displayallstudent(stage);
+
 
 
          }
@@ -1836,9 +1854,9 @@ public void handlefile(Stage stage,String name) throws IOException{
         m222.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Stage stage1=new Stage();
-                displayallstudent(stage1);
-                stage.close();
+
+                displayallstudent(stage);
+
 
 
             }
@@ -1921,9 +1939,9 @@ public void handlefile(Stage stage,String name) throws IOException{
         HBox btn=new HBox();
         Button save=new Button("Save");
         save.setStyle("-fx-color:#0076a3");
-        Button Login=new Button("cancel");
+        Button cancel=new Button("cancel");
         btn.getChildren().add(save);
-        btn.getChildren().add(Login);
+        btn.getChildren().add(cancel);
         btn.setAlignment(Pos.CENTER);
         btn.setSpacing(5);
         btn.setPadding(new Insets(5,0,0,150));
@@ -1993,6 +2011,18 @@ public void handlefile(Stage stage,String name) throws IOException{
 
 
         });
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+              firstname.setText("");
+                lastname.setText("");
+                 sex.setText("");
+              field.setText("");
+          year.setText("");
+            id.setText("");
+
+            }
+        });
 
 
     }
@@ -2000,7 +2030,7 @@ public void handlefile(Stage stage,String name) throws IOException{
         Group group1=new Group();
         Scene Texteditor=new Scene(group1);
         stage.setScene(Texteditor);
-        stage.setTitle("Login");
+        stage.setTitle("Display student Data");
         stage.setHeight(600);
         stage.setWidth(480);
         stage.show();
@@ -2130,9 +2160,9 @@ public void handlefile(Stage stage,String name) throws IOException{
         m222.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Stage stage1=new Stage();
-                displayallstudent(stage1);
-                stage.close();
+
+                displayallstudent(stage);
+
 
 
             }
@@ -2166,17 +2196,8 @@ public void handlefile(Stage stage,String name) throws IOException{
         headertitle.setStyle("-fx-font-size:20px");
         header.setAlignment(Pos.CENTER);
         header.getChildren().add(headertitle);
-        gridPane.add(headertitle,0,0);
+         container.getChildren().add(header);
 
-//        TableView tableView=new TableView<>();
-//        tableView.setEditable(true);
-//        TableColumn ID = new TableColumn("ID");
-//        TableColumn firstNameCol = new TableColumn("First Name");
-//        TableColumn lastNameCol = new TableColumn("Last Name");
-//        TableColumn Gender = new TableColumn("Sex");
-//        TableColumn field= new TableColumn("Department");
-//        TableColumn Year = new TableColumn("Year");
-//        tableView.getColumns().addAll(ID,firstNameCol,lastNameCol,Gender,field,Year);
 
          GridPane gridPane1=new GridPane();
          container.getChildren().add(gridPane1);
@@ -2234,7 +2255,7 @@ public void handlefile(Stage stage,String name) throws IOException{
         tableView.setPadding(new Insets(10));
         tableView.setSpacing(40);
         tableView.setStyle("-fx-background-color:grey;");
-        gridPane1.add(tableView,0,0);
+        container.getChildren().add(tableView);
 
 
 
@@ -2269,8 +2290,9 @@ public void handlefile(Stage stage,String name) throws IOException{
                 tableView1.getChildren().add(Gender1);
                 tableView1.getChildren().add(Field1);
                 tableView1.getChildren().add(Year1);
+                tableView1.setSpacing(30);
                 tableView1.setPadding(new Insets(10));
-                tableView1.setSpacing(40);
+
               container.getChildren().add(tableView1);
 
 
@@ -2423,9 +2445,9 @@ public void handlefile(Stage stage,String name) throws IOException{
         m222.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Stage stage1=new Stage();
-                displayallstudent(stage1);
-                stage.close();
+
+                displayallstudent(stage);
+
 
 
             }
@@ -2441,6 +2463,154 @@ public void handlefile(Stage stage,String name) throws IOException{
             }
         });
 
+        HBox header=new HBox();
+        Label headertitle=new Label("Search by ID");
+        headertitle.setPadding(new Insets(30,100,10,60));
+
+
+
+        headertitle.setTextFill(Color.web("#080e1f")
+        );
+        headertitle.setStyle("-fx-font-size:20px");
+        header.setAlignment(Pos.CENTER);
+        header.getChildren().add(headertitle);
+        container.getChildren().add(header);
+         GridPane gridPane=new GridPane();
+         gridPane.setAlignment(Pos.CENTER);
+           TextField search=new TextField();
+           Button btn=new Button("search");
+           btn.setTextFill(new LinearGradient(
+                   0, 0, 1, 1, true,
+                   CycleMethod.NO_CYCLE,
+                   new Stop(0, Color.web("#81c483")),
+                   new Stop(1, Color.web("#fcc200"))));
+           btn.setStyle("-fx-background-color:#2d55cc;");
+           gridPane.add(search,0,0);
+           gridPane.add(btn,1,0);
+           gridPane.setHgap(-1);
+           container.getChildren().add(gridPane);
+
+           btn.setOnAction(new EventHandler<ActionEvent>() {
+               @Override
+               public void handle(ActionEvent actionEvent) {
+                   stage.setHeight(600);
+                   stage.setWidth(480);
+                   nav.setSpacing(148);
+                   HBox tableView=new HBox();
+                   Label FirstName=new Label("First Name");
+                   FirstName.setTextFill(new LinearGradient(
+                           0, 0, 1, 1, true,
+                           CycleMethod.NO_CYCLE,
+                           new Stop(0, Color.web("#81c483")),
+                           new Stop(1, Color.web("#fcc200")))
+                   );
+                   Label LastName=new Label("Last Name");
+                   LastName.setTextFill(new LinearGradient(
+                           0, 0, 1, 1, true,
+                           CycleMethod.NO_CYCLE,
+                           new Stop(0, Color.web("#81c483")),
+                           new Stop(1, Color.web("#fcc200")))
+                   );
+                   Label Gender=new Label("Sex");
+                   Gender.setTextFill(new LinearGradient(
+                           0, 0, 1, 1, true,
+                           CycleMethod.NO_CYCLE,
+                           new Stop(0, Color.web("#81c483")),
+                           new Stop(1, Color.web("#fcc200")))
+                   );
+                   Label Field=new Label("Department");
+                   Field.setTextFill(new LinearGradient(
+                           0, 0, 1, 1, true,
+                           CycleMethod.NO_CYCLE,
+                           new Stop(0, Color.web("#81c483")),
+                           new Stop(1, Color.web("#fcc200")))
+                   );
+                   Label Year=new Label("Year");
+                   Year.setTextFill(new LinearGradient(
+                           0, 0, 1, 1, true,
+                           CycleMethod.NO_CYCLE,
+                           new Stop(0, Color.web("#81c483")),
+                           new Stop(1, Color.web("#fcc200")))
+                   );
+
+                   tableView.getChildren().add(FirstName);
+                   tableView.getChildren().add(LastName);
+                   tableView.getChildren().add(Gender);
+                   tableView.getChildren().add(Field);
+                   tableView.getChildren().add(Year);
+                   tableView.setPadding(new Insets(10));
+                   tableView.setSpacing(40);
+                   tableView.setStyle("-fx-background-color:grey;");
+                   container.getChildren().add(tableView);
+                   try {
+                       Connection con=null;
+                       Class.forName("com.mysql.cj.jdbc.Driver");
+                       String url="jdbc:mysql://localhost:3306/java_tuto";
+                       String user="natnaeln4d";
+                       String pwd="natty@123";
+                       con=DriverManager.getConnection(url,user,pwd);
+                       Statement st=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                       String sea=search.getText();
+                       String sql = "SELECT * FROM students WHERE id ='"+sea+"';";
+                       System.out.println(sql);
+                       PreparedStatement ps=con.prepareStatement(sql);
+                       ResultSet rt=ps.executeQuery();
+                       if(rt.next()){
+                           String firstname=rt.getString("firstname");
+                           String lastname=rt.getString("lastname");
+                           String sex=rt.getString("sex");
+                           String field1=rt.getString("field");
+                           String year=rt.getString("year");
+                           System.out.println("name"+firstname);
+                           HBox tableView1=new HBox();
+                           Label FirstName1=new Label(firstname);
+                           Label LastName1=new Label(lastname);
+                           Label Gender1=new Label(sex);
+                           Label Field1=new Label(field1);
+                           Label Year1=new Label(year);
+
+                           tableView1.getChildren().add(FirstName1);
+                           tableView1.getChildren().add(LastName1);
+                           tableView1.getChildren().add(Gender1);
+                           tableView1.getChildren().add(Field1);
+                           tableView1.getChildren().add(Year1);
+                           tableView1.setSpacing(50);
+                           tableView1.setPadding(new Insets(10));
+                           container.getChildren().add(tableView1);
+
+                       }
+                       else {
+                           HBox header=new HBox();
+                           Label headertitle=new Label("No student");
+                           headertitle.setPadding(new Insets(30,100,10,60));
+
+
+
+                           headertitle.setTextFill(Color.web("#732219")
+                           );
+                           headertitle.setStyle("-fx-font-size:16px");
+                           header.setAlignment(Pos.CENTER);
+                           header.getChildren().add(headertitle);
+                           container.getChildren().add(header);
+
+                       }
+                   }catch (SQLException e){
+                       System.out.println(e);
+                   } catch (ClassNotFoundException e) {
+                       throw new RuntimeException(e);
+                   }
+
+               }
+           });
+
+    }
+    public void chatApp() throws IOException {
+        ServerSocket ss=new ServerSocket(3304);
+        Socket s=ss.accept();
+        DataInputStream dis=new DataInputStream(s.getInputStream());
+        String  str=(String)dis.readUTF();
+        System.out.println("message= "+str);
+        ss.close();
     }
 
     public static void main(String[] args) {
