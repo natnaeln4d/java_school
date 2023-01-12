@@ -2341,9 +2341,11 @@ public void handlefile(Stage stage,String name) throws IOException{
         MenuItem m111=new MenuItem("Register student");
         MenuItem m222=new MenuItem("All Students");
         MenuItem m333=new MenuItem("Single Student information");
+        MenuItem m444=new MenuItem("search In text");
         menu2.getItems().add(m111);
         menu2.getItems().add(m222);
         menu2.getItems().add(m333);
+        menu2.getItems().add(m444);
         MenuBar menuBar1=new MenuBar();
         menuBar1.getMenus().add(menu);
         menuBar1.getMenus().add(menu1);
@@ -2458,6 +2460,16 @@ public void handlefile(Stage stage,String name) throws IOException{
                 Stage stage1=new Stage();
                 displaysinglestudent(stage1);
                 stage.close();
+
+
+            }
+        });
+        m444.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+              searchOnFile(stage);
+
 
 
             }
@@ -2604,14 +2616,237 @@ public void handlefile(Stage stage,String name) throws IOException{
            });
 
     }
-    public void chatApp() throws IOException {
-        ServerSocket ss=new ServerSocket(3304);
-        Socket s=ss.accept();
-        DataInputStream dis=new DataInputStream(s.getInputStream());
-        String  str=(String)dis.readUTF();
-        System.out.println("message= "+str);
-        ss.close();
+    public void searchOnFile(Stage stage){
+        Group group1=new Group();
+        Scene Texteditor=new Scene(group1);
+        stage.setScene(Texteditor);
+        stage.setTitle("Login");
+        stage.setHeight(500);
+        stage.setWidth(400);
+        stage.show();
+        VBox container=new VBox();
+        container.setSpacing(4);
+        group1.getChildren().add(container);
+        HBox nav=new HBox();
+        Menu menu=new Menu("File");
+        MenuItem m1=new MenuItem("open");
+        MenuItem m2=new MenuItem("save");
+        MenuItem m3=new MenuItem("saveAs");
+        menu.getItems().add(m1);
+        menu.getItems().add(m2);
+        menu.getItems().add(m3);
+        Menu menu1=new Menu("Directory");
+        MenuItem m11=new MenuItem("Open Directory");
+        MenuItem m22=new MenuItem("Transverse Directory");
+        MenuItem m33=new MenuItem("Check IsFile || IsDirectory");
+        menu1.getItems().add(m11);
+        menu1.getItems().add(m22);
+        menu1.getItems().add(m33);
+        Menu menu2=new Menu("Student Information");
+        MenuItem m111=new MenuItem("Register student");
+        MenuItem m222=new MenuItem("All Students");
+        MenuItem m333=new MenuItem("Single Student information");
+        menu2.getItems().add(m111);
+        menu2.getItems().add(m222);
+        menu2.getItems().add(m333);
+        MenuBar menuBar1=new MenuBar();
+        menuBar1.getMenus().add(menu);
+        menuBar1.getMenus().add(menu1);
+        menuBar1.getMenus().add(menu2);
+        Menu log=new Menu("Logout");
+        MenuItem logut=new MenuItem("logout");
+        log.getItems().add(logut);
+        MenuBar menuBar2=new MenuBar();
+        menuBar2.getMenus().add(log);
+        nav.getChildren().add(menuBar1);
+        nav.getChildren().add(menuBar2);
+        nav.setSpacing(80);
+        container.getChildren().add(nav);
+        logut.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Stage stage1=new Stage();
+                try {
+
+                    start(stage1);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stage.close();
+            }
+        });
+        m1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                open(stage1);
+                stage.close();
+
+
+            }
+        });
+        m2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                save(stage1);
+                stage.close();
+
+
+            }
+        });
+        m3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                saveAS(stage1);
+                stage.close();
+
+
+            }
+        });
+        m11.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                openDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m22.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                transverse(stage1);
+                stage.close();
+
+
+            }
+        });
+        m33.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                ChecKFileDirectory(stage1);
+                stage.close();
+
+
+            }
+        });
+        m111.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                StudentRegisteration(stage1);
+                stage.close();
+
+
+            }
+        });
+        m222.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                displayallstudent(stage);
+
+
+
+            }
+        });
+        m333.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage1=new Stage();
+                displaysinglestudent(stage1);
+                stage.close();
+
+
+            }
+        });
+
+        HBox header=new HBox();
+        Label headertitle=new Label("Search by ID");
+        headertitle.setPadding(new Insets(30,100,10,60));
+
+
+
+        headertitle.setTextFill(Color.web("#080e1f")
+        );
+        headertitle.setStyle("-fx-font-size:20px");
+        header.setAlignment(Pos.CENTER);
+        header.getChildren().add(headertitle);
+        container.getChildren().add(header);
+        GridPane gridPane=new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        TextField search=new TextField();
+        Button btn=new Button("search");
+        btn.setTextFill(new LinearGradient(
+                0, 0, 1, 1, true,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, Color.web("#81c483")),
+                new Stop(1, Color.web("#fcc200"))));
+        btn.setStyle("-fx-background-color:#2d55cc;");
+        gridPane.add(search,0,0);
+        gridPane.add(btn,1,0);
+        gridPane.setHgap(-1);
+        container.getChildren().add(gridPane);
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    String[] words=null;
+                    String data=search.getText();
+                    File file=new File("/Users/natnaelgetachew/Documents/amen.txt");
+                    FileReader fr=new FileReader(file);
+                    BufferedReader br=new BufferedReader(fr);
+                    String content;
+
+                    while ((content=br.readLine())!=null){
+                        words=content.split(" ");
+                        for (String word:words){
+
+                            if(word.equals(data)){
+
+                                HBox header=new HBox();
+                                Label headertitle=new Label(content);
+                                headertitle.setPadding(new Insets(30,100,10,60));
+
+                                headertitle.setTextFill(Color.web("#732219")
+                                );
+                                headertitle.setStyle("-fx-font-size:16px");
+                                header.setAlignment(Pos.CENTER);
+                                header.getChildren().add(headertitle);
+                                container.getChildren().add(header);
+
+                            }
+//                            else {
+//                                HBox header = new HBox();
+//                                Label headertitle = new Label("No Record");
+//                                headertitle.setPadding(new Insets(30, 100, 10, 60));
+//
+//
+//                                headertitle.setTextFill(Color.web("#732219")
+//                                );
+//                                headertitle.setStyle("-fx-font-size:16px");
+//                                header.setAlignment(Pos.CENTER);
+//                                header.getChildren().add(headertitle);
+//                                container.getChildren().add(header);
+//                            }
+                        }
+                        
+                    }
+                    
+                }catch (IOException E){
+                    System.out.println(E);
+                }
+            }
+        });
     }
+
 
     public static void main(String[] args) {
         launch();
